@@ -1,8 +1,17 @@
+// pages/types/three-addons.d.ts
+
 declare module 'three/examples/jsm/loaders/FontLoader' {
-  import { Loader } from 'three';
+  import { Loader, LoadingManager } from 'three';
+
+  export interface Glyph {
+    ha: number;
+    x_min: number;
+    x_max: number;
+    o: string;
+  }
 
   export interface FontData {
-    glyphs: Record<string, unknown>;
+    glyphs: Record<string, Glyph>;
     familyName: string;
     ascender: number;
     descender: number;
@@ -26,6 +35,7 @@ declare module 'three/examples/jsm/loaders/FontLoader' {
   }
 
   export class FontLoader extends Loader {
+    constructor(manager?: LoadingManager);
     load(
       url: string,
       onLoad: (font: Font) => void,
