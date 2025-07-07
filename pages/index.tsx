@@ -1,12 +1,19 @@
 // pages/index.tsx
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Github, ExternalLink, Mail, Linkedin, Code, Menu, X } from 'lucide-react';
+import Image from 'next/image';
 
 // Impor komponen dari folder components
 import ProjectCard from '../pages/components/ProjectCard';
 import Typewriter from '../pages/components/Typewriter';
 import ThreeDText from '../pages/components/ThreeDText';
-import RobotScene from '../pages//components/RobotScene'; // Tambahkan ini di bagian atas
+import RobotScene from '../pages//components/RobotScene'; 
+import ThanosSnapSection from '../pages/components/ThanosSnapSection';
+
+// 
+// // 
+// Tambahkan ini di bagian atas
+
 
 // Definisi tipe untuk objek proyek
 interface Project {
@@ -20,6 +27,7 @@ interface Project {
 
 const Home: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false); // State untuk mengelola status menu mobile
+  const robotSceneRef = useRef<{ moveCameraTo: (target: 'default' | 'head' | 'hand' | 'torso') => void }>(null);
 
   // Data proyek Anda (ganti dengan proyek Vue.js Anda)
   const projects: Project[] = [
@@ -58,24 +66,45 @@ const Home: React.FC = () => {
   ];
 
   // Fungsi untuk menangani smooth scrolling saat mengklik tautan navigasi
+  // const handleSmoothScroll = (event: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+  //   event.preventDefault(); // Mencegah perilaku default tautan anchor
+  //   const targetElement = document.getElementById(targetId);
+  //   if (targetElement) {
+  //     targetElement.scrollIntoView({
+  //       behavior: 'smooth',
+  //       block: 'start',
+  //     });
+  //     setIsMenuOpen(false); // Tutup menu setelah mengklik tautan
+  //   }
+  // };
   const handleSmoothScroll = (event: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
-    event.preventDefault(); // Mencegah perilaku default tautan anchor
+    event.preventDefault();
     const targetElement = document.getElementById(targetId);
     if (targetElement) {
-      targetElement.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      });
-      setIsMenuOpen(false); // Tutup menu setelah mengklik tautan
+      targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setIsMenuOpen(false);
+    }
+
+    // Pindahkan kamera sesuai bagian
+    if (robotSceneRef.current) {
+      if (targetId === 'about') robotSceneRef.current.moveCameraTo('head');
+      else if (targetId === 'projects') robotSceneRef.current.moveCameraTo('hand');
+      else if (targetId === 'contact') robotSceneRef.current.moveCameraTo('torso');
+      else robotSceneRef.current.moveCameraTo('default');
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white font-inter">
+    <div className="min-h-screen bg-gray-950 text-white font-inter relative">
       {/* Header - Fixed positioning for sticky navigation */}
+       <RobotScene ref={robotSceneRef} />
       <header className="fixed top-0 left-0 right-0 z-50 py-6 px-4 md:px-8 lg:px-16 bg-gray-900 shadow-lg">
         <nav className="container mx-auto flex justify-between items-center">
-          <a href="#" className="text-3xl font-bold text-green-400">
+          <a href="#" onClick={(e) => {
+            e.preventDefault(); // cegah reload
+            window.scrollTo({ top: 0, behavior: 'smooth' }); // scroll ke atas
+            robotSceneRef.current?.moveCameraTo('default'); // pindah kamera ke posisi default
+          }} className="text-3xl font-bold text-green-400">
             <Code className="inline-block mr-2 w-7 h-7" />
             DxArya
           </a>
@@ -161,6 +190,7 @@ const Home: React.FC = () => {
       {/* Main content wrapper - Padding-top untuk mencegah konten tersembunyi di bawah header fixed */}
       <div className="pt-20"> {/* Sesuaikan nilai pt-value berdasarkan tinggi header Anda */}
         {/* Hero Section */}
+        <ThanosSnapSection className="py-16 md:py-20 px-4 md:px-8 lg:px-16 bg-gray-900 border-t border-gray-800">
         <section className="relative z-10 h-screen flex items-center justify-center text-center bg-transparent px-4">
           <div>
           <div className="absolute inset-0 bg-pattern opacity-10"></div>
@@ -208,18 +238,27 @@ const Home: React.FC = () => {
           </div>
           </div>
         </section>
+        </ThanosSnapSection>
 
         {/* About Section */}
+        <ThanosSnapSection>
         <section id="about" className="py-16 md:py-20 px-4 md:px-8 lg:px-16 bg-gray-900 border-t border-b border-gray-800">
           <div className="container mx-auto max-w-4xl">
             <h2 className="text-3xl md:text-4xl font-bold text-center text-green-400 mb-8 md:mb-12">Tentang Saya</h2>
             <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
               <div className="md:w-1/3 flex justify-center">
-                <img
+              <Image
+                  src="https://media.licdn.com/dms/image/v2/C5603AQGKmme-RRNFdA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1618581043120?e=1757548800&v=beta&t=e1MCSEusDnFeFDswDFCHzhi3X8V9BHmaecrbEizZmTc"
+                  alt="Foto Profil Anda"
+                  width={256} // sesuai dengan ukuran md:w-64 (64 * 4 = 256px)
+                  height={256}
+                  className="rounded-full object-cover border-4 border-green-500 shadow-xl"
+                />
+                {/* <img
                   src="https://media.licdn.com/dms/image/v2/C5603AQGKmme-RRNFdA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1618581043120?e=1757548800&v=beta&t=e1MCSEusDnFeFDswDFCHzhi3X8V9BHmaecrbEizZmTc"
                   alt="Foto Profil Anda"
                   className="rounded-full w-48 h-48 md:w-64 md:h-64 object-cover border-4 border-green-500 shadow-xl"
-                />
+                /> */}
               </div>
               <div className="md:w-2/3 text-gray-300 text-base md:text-lg leading-relaxed text-center md:text-left">
                 <p className="mb-4">
@@ -250,8 +289,10 @@ const Home: React.FC = () => {
             </div>
           </div>
         </section>
+        </ThanosSnapSection>
 
         {/* Projects Section */}
+        <ThanosSnapSection>
         <section id="projects" className="py-16 md:py-20 px-4 md:px-8 lg:px-16 bg-gray-950">
           <div className="container mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-center text-green-400 mb-8 md:mb-12">Proyek-Proyek Saya</h2>
@@ -262,8 +303,10 @@ const Home: React.FC = () => {
             </div>
           </div>
         </section>
+        </ThanosSnapSection>
 
         {/* Contact Section */}
+        <ThanosSnapSection>
         <section id="contact" className="py-16 md:py-20 px-4 md:px-8 lg:px-16 bg-gray-900 border-t border-gray-800">
           <div className="container mx-auto max-w-2xl text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-green-400 mb-6 md:mb-8">Hubungi Saya</h2>
@@ -272,15 +315,15 @@ const Home: React.FC = () => {
             </p>
             <div className="flex flex-col items-center space-y-4 md:space-y-6">
               <a
-                href="mailto:nama.email@example.com"
+                href="mailto:arya.dexy@gmail.com"
                 className="inline-flex items-center px-5 py-2.5 md:px-6 md:py-3 bg-green-600 text-white text-base md:text-lg font-medium rounded-full shadow-lg hover:bg-green-700 transition-colors duration-200 transform hover:scale-105 hover:shadow-green-glow"
               >
                 <Mail className="w-5 h-5 mr-2 md:w-6 md:h-6 md:mr-3" />
-                nama.email@example.com
+                arya.dexy@gmail.com
               </a>
               <div className="flex space-x-5 md:space-x-6">
                 <a
-                  href="https://github.com/yourusername"
+                  href="https://github.com/dexyarya"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-300 hover:text-green-400 transition-colors duration-200 transform hover:scale-125 hover:shadow-green-glow-sm rounded-full p-1"
@@ -288,7 +331,7 @@ const Home: React.FC = () => {
                   <Github className="w-7 h-7 md:w-8 md:h-8" />
                 </a>
                 <a
-                  href="https://linkedin.com/in/yourprofile"
+                  href="www.linkedin.com/in/dexy-aryae"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-300 hover:text-green-400 transition-colors duration-200 transform hover:scale-125 hover:shadow-green-glow-sm rounded-full p-1"
@@ -299,6 +342,7 @@ const Home: React.FC = () => {
             </div>
           </div>
         </section>
+        </ThanosSnapSection>
 
         {/* Footer */}
         <footer className="py-6 md:py-8 px-4 md:px-8 lg:px-16 bg-gray-950 text-center text-gray-500 text-xs md:text-sm border-t border-gray-800">

@@ -25,8 +25,8 @@ interface ThreeDTextProps {
 
 const ThreeDText: React.FC<ThreeDTextProps> = ({
   text,
-  color = '#00FF88',
-  glowColor = '#00FF88',
+  color = '#00CED1',
+  glowColor = '#50C878',
 }) => {
   const mountRef = useRef<HTMLDivElement>(null);
   const textMeshRef = useRef<THREE.Mesh | null>(null);
@@ -38,6 +38,8 @@ const ThreeDText: React.FC<ThreeDTextProps> = ({
     if (!container) return;
 
     const scene = new THREE.Scene();
+    // scene.background = new THREE.Color('#000'); // optional for contrast
+
     const camera = new THREE.PerspectiveCamera(
       45,
       container.clientWidth / container.clientHeight,
@@ -48,11 +50,18 @@ const ThreeDText: React.FC<ThreeDTextProps> = ({
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.shadowMap.enabled = true;
     container.appendChild(renderer.domElement);
 
-    scene.add(new THREE.AmbientLight(0xffffff, 1.2));
+    // Light setup
+    const ambient = new THREE.AmbientLight(0xffffff, 0.4);
+    scene.add(ambient);
 
-    const pointLight = new THREE.PointLight(glowColor, 2, 100);
+    const hemiLight = new THREE.HemisphereLight(0xffffff, 0x333333, 1);
+    scene.add(hemiLight);
+
+    const pointLight = new THREE.PointLight(glowColor, 2, 100, 2);
+    pointLight.castShadow = true;
     pointLight.position.set(0, 0, 3);
     scene.add(pointLight);
 
@@ -73,21 +82,30 @@ const ThreeDText: React.FC<ThreeDTextProps> = ({
       const geo = new TextGeometry(text, cfg);
       geo.center();
 
-      const mat = new THREE.MeshStandardMaterial({
+      const mat = new THREE.MeshPhysicalMaterial({
         color: new THREE.Color(color),
-        metalness: 0.5,
-        roughness: 0.3,
+        metalness: 1,
+        roughness: 0.2,
+        ior: 1.5,
+        clearcoat: 1,
+        clearcoatRoughness: 0.1,
+        transmission: 0.3,
+        thickness: 1,
+        emissive: new THREE.Color(glowColor),
+        emissiveIntensity: 0.4,
         transparent: true,
         opacity: 1,
       });
 
       const mesh = new THREE.Mesh(geo, mat);
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+
       textMeshRef.current = mesh;
       scene.add(mesh);
       setFontLoaded(true);
     });
 
-    // Mouse move: untuk efek tilt
     const onMouseMove = (e: MouseEvent) => {
       const { left, top, width, height } = container.getBoundingClientRect();
       const nx = (e.clientX - left) / width * 2 - 1;
@@ -110,7 +128,6 @@ const ThreeDText: React.FC<ThreeDTextProps> = ({
     };
     window.addEventListener('mousemove', onMouseMove);
 
-    // Hover bounce effect
     const onHover = () => {
       if (textMeshRef.current) {
         gsap.to(textMeshRef.current.scale, {
@@ -124,7 +141,6 @@ const ThreeDText: React.FC<ThreeDTextProps> = ({
     };
     container.addEventListener('mouseenter', onHover);
 
-    // Scroll effect to fade and shrink
     const onScroll = () => {
       if (!textMeshRef.current) return;
 
@@ -143,11 +159,10 @@ const ThreeDText: React.FC<ThreeDTextProps> = ({
         ease: 'power2.out',
       });
 
-      if (
-        textMeshRef.current.material &&
-        textMeshRef.current.material instanceof THREE.MeshStandardMaterial
-      ) {
-        textMeshRef.current.material.opacity = opacity;
+      const material = textMeshRef.current.material;
+      if (material instanceof THREE.MeshPhysicalMaterial) {
+        material.opacity = opacity;
+        material.emissiveIntensity = 0.4 * opacity;
       }
     };
     window.addEventListener('scroll', onScroll);

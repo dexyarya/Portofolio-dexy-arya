@@ -6,13 +6,13 @@ declare module 'three/examples/jsm/loaders/FontLoader' {
     load(
       url: string,
       onLoad: (font: Font) => void,
-      onProgress?: (event: ProgressEvent) => void,
+      onProgress?: (event: ProgressEvent<EventTarget>) => void,
       onError?: (event: ErrorEvent | Error) => void
     ): void;
   }
 
   export interface FontData {
-    glyphs: any;
+    glyphs: Record<string, unknown>; // ✅ dari any → Record<string, unknown>
     familyName: string;
     ascender: number;
     descender: number;
@@ -25,7 +25,7 @@ declare module 'three/examples/jsm/loaders/FontLoader' {
       xMax: number;
     };
     resolution: number;
-    original_font_information: any;
+    original_font_information: Record<string, unknown>; // ✅ dari any → Record<string, unknown>
     cssFontWeight: string;
     cssFontStyle: string;
   }
