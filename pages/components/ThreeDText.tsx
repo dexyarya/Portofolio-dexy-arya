@@ -2,7 +2,7 @@
 
 import * as THREE from 'three';
 import React, { useEffect, useRef, useState } from 'react';
-import { FontLoader, Font, TextGeometry } from 'three-stdlib';
+import { FontLoader, TextGeometry } from 'three-stdlib';
 
 import gsap from 'gsap';
 
@@ -68,7 +68,7 @@ const ThreeDText: React.FC<ThreeDTextProps> = ({
 
     // Load font
     const loader = new FontLoader();
-    loader.load('/fonts/helvetiker_bold.typeface.json', (font) => {
+    loader.load('/fonts/helvetiker_bold.typeface.json', (font: ReturnType<FontLoader['parse']>) => {
       const cfg: CustomTextGeometryParameters = {
         font: font,
         size: 0.6,
