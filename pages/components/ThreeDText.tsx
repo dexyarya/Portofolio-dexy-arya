@@ -3,6 +3,7 @@
 import * as THREE from 'three';
 import React, { useEffect, useRef, useState } from 'react';
 import { FontLoader, Font, TextGeometry } from 'three-stdlib';
+
 import gsap from 'gsap';
 
 interface CustomTextGeometryParameters {
@@ -69,7 +70,7 @@ const ThreeDText: React.FC<ThreeDTextProps> = ({
     const loader = new FontLoader();
     loader.load('/fonts/helvetiker_bold.typeface.json', (font: Font) => {
       const cfg: CustomTextGeometryParameters = {
-        font,
+        font: font,
         size: 0.6,
         height: 0.08,
         bevelEnabled: true,
