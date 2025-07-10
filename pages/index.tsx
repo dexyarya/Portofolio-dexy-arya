@@ -4,11 +4,11 @@ import { Github, ExternalLink, Mail, Linkedin, Code, Menu, X } from 'lucide-reac
 import Image from 'next/image';
 
 // Impor komponen dari folder components
-import ProjectCard from '../pages/components/ProjectCard';
-import Typewriter from '../pages/components/Typewriter';
-import ThreeDText from '../pages/components/ThreeDText';
-import RobotScene from '../pages//components/RobotScene'; 
-import ThanosSnapSection from '../pages/components/ThanosSnapSection';
+import ProjectCard from '../components/ProjectCard';
+import Typewriter from '../components/Typewriter';
+import ThreeDText from '../components/ThreeDText';
+import RobotScene from '../components/RobotScene'; 
+import ThanosSnapSection from '../components/ThanosSnapSection';
 
 // 
 // // 
