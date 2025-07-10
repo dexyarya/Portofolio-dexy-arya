@@ -202,7 +202,7 @@ const Home: React.FC = () => {
               Halo, Saya{' '}
               {/* Mengganti Typewriter dengan ThreeDText untuk nama */}
               <span className="text-green-400 inline-block w-full h-[20px] md:h-[30px] flex items-center justify-center">
-                <ThreeDText text="DEXY ARYA" color="#00FF00" glowColor="#00FF00" />
+                <ThreeDText text="DEXY ARYA" color="#FFF" glowColor="#FFF" />
               </span>
             </h1>
             <p className="text-lg md:text-xl lg:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto animate-fade-in-up delay-200">

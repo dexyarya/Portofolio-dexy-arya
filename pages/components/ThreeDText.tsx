@@ -7,7 +7,7 @@ import { FontLoader, Font, TextGeometry } from 'three-stdlib';
 import gsap from 'gsap';
 
 interface CustomTextGeometryParameters {
-  font: Font;
+  font;
   size?: number;
   height?: number;
   curveSegments?: number;
@@ -26,8 +26,8 @@ interface ThreeDTextProps {
 
 const ThreeDText: React.FC<ThreeDTextProps> = ({
   text,
-  color = '#00CED1',
-  glowColor = '#50C878',
+  color = '#FFFF',
+  glowColor = '#FFF',
 }) => {
   const mountRef = useRef<HTMLDivElement>(null);
   const textMeshRef = useRef<THREE.Mesh | null>(null);
@@ -68,7 +68,7 @@ const ThreeDText: React.FC<ThreeDTextProps> = ({
 
     // Load font
     const loader = new FontLoader();
-    loader.load('/fonts/helvetiker_bold.typeface.json', (font: Font) => {
+    loader.load('/fonts/helvetiker_bold.typeface.json', (font) => {
       const cfg: CustomTextGeometryParameters = {
         font: font,
         size: 0.6,
