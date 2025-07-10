@@ -19,7 +19,9 @@ interface ProjectCardProps {
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
-  const [imgSrc, setImgSrc] = useState(project.image)
+  const [imgSrc, setImgSrc] = useState<string>(
+  project?.image ?? `https://placehold.co/600x400/1a202c/a0aec0?text=${encodeURIComponent(project?.title || 'Project')}`
+  );
   const fallbackUrl = `https://placehold.co/600x400/1a202c/a0aec0?text=${encodeURIComponent(project.title)}`;
 
   return (
