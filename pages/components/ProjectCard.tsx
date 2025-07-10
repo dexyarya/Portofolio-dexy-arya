@@ -20,7 +20,7 @@ interface ProjectCardProps {
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
   const [imgSrc, setImgSrc] = useState(project.image)
-  const fallbackUrl = `https://placehold.co/600x400/1a202c/a0aec0?text=${project.title.replace(/\s/g, '+')}`;
+  const fallbackUrl = `https://placehold.co/600x400/1a202c/a0aec0?text=${encodeURIComponent(project.title)}`;
 
   return (
     <div className="bg-gray-800 rounded-xl shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105 hover:shadow-green-glow border border-gray-700">

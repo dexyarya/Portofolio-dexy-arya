@@ -35,15 +35,15 @@ const Home: React.FC = () => {
       id: 1,
       title: 'Material Identifycation Managemen  System (MIMS)',
       description: 'Sebuah platform e-commerce lengkap yang dibangun dengan Vue.js, Vuex untuk manajemen state, dan Vue Router untuk navigasi. Fitur termasuk keranjang belanja, otentikasi pengguna, dan daftar produk dinamis.',
-      image: 'https://placehold.co/600x400/1a202c/a0aec0?text=Managemen Material Identifycation System (MMIS)', // Ganti dengan URL gambar proyek Anda
+      image: 'https://placehold.co/600x400/1a202c/a0aec0?text=MMIS',
       liveLink: 'https://example-ecommerce-vue.vercel.app', // Ganti dengan link live demo Anda
-      githubLink: 'https://github.com/yourusername/ecommerce-vue-app', // Ganti dengan link GitHub Anda
+      githubLink: 'https://github.com/yourusername/ecommerce-vue-app', // Ganti dengan link GitHub Anda 
     },
     {
       id: 2,
       title: 'SCM Marketplace (SMAR)',
       description: 'Dashboard admin responsif yang dikembangkan menggunakan Vue.js dan Chart.js untuk visualisasi data. Menampilkan grafik real-time, tabel yang dapat difilter, dan komponen UI yang dapat digunakan kembali.',
-      image: 'https://placehold.co/600x400/1a202c/a0aec0?text=SCM Marketplace (SMAR)', // Ganti dengan URL gambar proyek Anda
+      image: 'https://placehold.co/600x400/1a202c/a0aec0?text=SMAR', // Ganti dengan URL gambar proyek Anda
       liveLink: 'https://example-admin-dashboard.netlify.app', // Ganti dengan link live demo Anda
       githubLink: 'https://github.com/yourusername/vue-admin-dashboard', // Ganti dengan link GitHub Anda
     },
@@ -51,7 +51,7 @@ const Home: React.FC = () => {
       id: 3,
       title: 'Vendor Management System (VMS)',
       description: 'Aplikasi daftar tugas sederhana dengan fitur CRUD (Create, Read, Update, Delete) yang terhubung ke Firebase Firestore untuk persistensi data secara real-time. Dibangun dengan Vue.js dan Vuefire.',
-      image: 'https://placehold.co/600x400/1a202c/a0aec0?text=Vendor Management System (VMS)', // Ganti dengan URL gambar proyek Anda
+      image: 'https://placehold.co/600x400/1a202c/a0aec0?text=VMS', // Ganti dengan URL gambar proyek Anda test     
       liveLink: 'https://example-todo-firebase.web.app', // Ganti dengan link live demo Anda
       githubLink: 'https://github.com/yourusername/vue-todo-firebase', // Ganti dengan link GitHub Anda
     },
@@ -59,24 +59,24 @@ const Home: React.FC = () => {
       id: 4,
       title: 'Aplikasi Gudang Online (AGO)',
       description: 'Situs web portofolio pribadi yang dirancang untuk menampilkan proyek dan keahlian. Menggunakan Vue.js untuk komponen interaktif dan animasi CSS untuk pengalaman pengguna yang halus.',
-      image: 'https://placehold.co/600x400/1a202c/a0aec0?text=Aplikasi Gudang Online (AGO)', // Ganti dengan URL gambar proyek Anda
+      image: 'https://placehold.co/600x400/1a202c/a0aec0?text=AGO', // Ganti dengan URL gambar proyek Anda
       liveLink: 'https://example-vue-portfolio.vercel.app', // Ganti dengan link live demo Anda
       githubLink: 'https://github.com/yourusername/my-vue-portfolio', // Ganti dengan link GitHub Anda
     },
   ];
 
-  // Fungsi untuk menangani smooth scrolling saat mengklik tautan navigasi
-  // const handleSmoothScroll = (event: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
-  //   event.preventDefault(); // Mencegah perilaku default tautan anchor
-  //   const targetElement = document.getElementById(targetId);
-  //   if (targetElement) {
-  //     targetElement.scrollIntoView({
-  //       behavior: 'smooth',
-  //       block: 'start',
-  //     });
-  //     setIsMenuOpen(false); // Tutup menu setelah mengklik tautan
-  //   }
-  // };
+  const skills = [
+    'Vue.js',
+    'Nuxt.js',
+    'React.js',      
+    'JavaScript (ES6+)',
+    'HTML5',
+    'CSS3',
+    'Tailwind CSS',
+    'Git & GitHub',
+    'RESTful APIs',
+    'UI/UX Design',
+  ];
   const handleSmoothScroll = (event: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
     event.preventDefault();
     const targetElement = document.getElementById(targetId);
@@ -254,11 +254,6 @@ const Home: React.FC = () => {
                   height={256}
                   className="rounded-full object-cover border-4 border-green-500 shadow-xl"
                 />
-                {/* <img
-                  src="https://media.licdn.com/dms/image/v2/C5603AQGKmme-RRNFdA/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1618581043120?e=1757548800&v=beta&t=e1MCSEusDnFeFDswDFCHzhi3X8V9BHmaecrbEizZmTc"
-                  alt="Foto Profil Anda"
-                  className="rounded-full w-48 h-48 md:w-64 md:h-64 object-cover border-4 border-green-500 shadow-xl"
-                /> */}
               </div>
               <div className="md:w-2/3 text-gray-300 text-base md:text-lg leading-relaxed text-center md:text-left">
                 <p className="mb-4">
@@ -273,7 +268,17 @@ const Home: React.FC = () => {
                 <div className="mt-6 md:mt-8">
                   <h3 className="text-xl md:text-2xl font-semibold text-green-400 mb-3 md:mb-4">Keahlian Saya</h3>
                   <div className="flex flex-wrap justify-center md:justify-start gap-3 md:gap-4 text-sm">
-                    <span className="bg-green-700 text-white px-3 py-1.5 md:px-4 md:py-2 rounded-full shadow-md transition-transform duration-300 hover:scale-105 hover:bg-green-600 hover:shadow-green-glow-sm">Vue.js</span>
+                    {
+                      skills.map((skill) => (
+                           <span
+                            key={skill}
+                            className="bg-green-700 text-white px-3 py-1.5 md:px-4 md:py-2 rounded-full shadow-md transition-transform duration-300 hover:scale-105 hover:bg-green-600 hover:shadow-green-glow-sm"
+                          >
+                            {skill}
+                          </span>
+                      ))
+                    }
+                    {/* <span className="bg-green-700 text-white px-3 py-1.5 md:px-4 md:py-2 rounded-full shadow-md transition-transform duration-300 hover:scale-105 hover:bg-green-600 hover:shadow-green-glow-sm">Vue.js</span>
                     <span className="bg-green-700 text-white px-3 py-1.5 md:px-4 md:py-2 rounded-full shadow-md transition-transform duration-300 hover:scale-105 hover:bg-green-600 hover:shadow-green-glow-sm">Nuxt.js</span>
                     <span className="bg-green-700 text-white px-3 py-1.5 md:px-4 md:py-2 rounded-full shadow-md transition-transform duration-300 hover:scale-105 hover:bg-green-600 hover:shadow-green-glow-sm">React.js</span>
                     <span className="bg-green-700 text-white px-3 py-1.5 md:px-4 md:py-2 rounded-full shadow-md transition-transform duration-300 hover:scale-105 hover:bg-green-600 hover:shadow-green-glow-sm">JavaScript (ES6+)</span>
@@ -282,7 +287,7 @@ const Home: React.FC = () => {
                     <span className="bg-green-700 text-white px-3 py-1.5 md:px-4 md:py-2 rounded-full shadow-md transition-transform duration-300 hover:scale-105 hover:bg-green-600 hover:shadow-green-glow-sm">Tailwind CSS</span>
                     <span className="bg-green-700 text-white px-3 py-1.5 md:px-4 md:py-2 rounded-full shadow-md transition-transform duration-300 hover:scale-105 hover:bg-green-600 hover:shadow-green-glow-sm">Git & GitHub</span>
                     <span className="bg-green-700 text-white px-3 py-1.5 md:px-4 md:py-2 rounded-full shadow-md transition-transform duration-300 hover:scale-105 hover:bg-green-600 hover:shadow-green-glow-sm">RESTful APIs</span>
-                    <span className="bg-green-700 text-white px-3 py-1.5 md:px-4 md:py-2 rounded-full shadow-md transition-transform duration-300 hover:scale-105 hover:bg-green-600 hover:shadow-green-glow-sm">UI/UX Design</span>
+                    <span className="bg-green-700 text-white px-3 py-1.5 md:px-4 md:py-2 rounded-full shadow-md transition-transform duration-300 hover:scale-105 hover:bg-green-600 hover:shadow-green-glow-sm">UI/UX Design</span> */}
                   </div>
                 </div>
               </div>
@@ -346,7 +351,7 @@ const Home: React.FC = () => {
 
         {/* Footer */}
         <footer className="py-6 md:py-8 px-4 md:px-8 lg:px-16 bg-gray-950 text-center text-gray-500 text-xs md:text-sm border-t border-gray-800">
-          <p>&copy; {new Date().getFullYear()} [Nama Anda]. Semua Hak Dilindungi Undang-Undang.</p>
+          <p>&copy; {new Date().getFullYear()} [Dexy Arya]. Semua Hak Dilindungi Undang-Undang.</p>
         </footer>
       </div>
     </div>

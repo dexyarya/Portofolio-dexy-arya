@@ -8,6 +8,15 @@ const nextConfig = {
       'media.licdn.com', // Tambahkan ini
       // Tambahkan hostname lain jika ada
     ],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'placehold.co',
+        port: '',
+        pathname: '/**',
+      },
+    ],
+    dangerouslyAllowSVG: true,
   },
 };
 
